@@ -16,7 +16,8 @@ const FROM_STYLE = {
   background: '#ff05'
 }
 
-type Props = {
+export type BoardProps = Parameters<typeof Chessboard>[0]
+export type Props = BoardProps & {
   fen: string
   arrows?: Array<{
     san: string
@@ -25,7 +26,7 @@ type Props = {
   onMove?(san: string, fenAfter: string): void
 }
 
-export function Board({ fen, onMove, arrows }: Props) {
+export function Board({ fen, onMove, arrows, ...props }: Props) {
   function move(from: Square, to: Square, piece: Piece): boolean {
     try {
       const game = new Chess(fen);
@@ -89,7 +90,7 @@ export function Board({ fen, onMove, arrows }: Props) {
 
   return (
     <Chessboard position={fen} onPieceDrop={move} customArrows={customArrows}
-      customSquareStyles={squareStyles} onSquareClick={onClick}
+      customSquareStyles={squareStyles} onSquareClick={onClick} {...props}
     />
   )
 }
