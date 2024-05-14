@@ -57,6 +57,9 @@ export function Board({ fen, onMove, arrows, ...props }: Props) {
 
   const [fromSquare, setFrom] = useState<Square|null>(null)
   const onClick = useCallback((square: Square) => {
+    if (!onMove && !props.arePiecesDraggable)
+      return
+
     if (!fromSquare)
       return setFrom(square)
 
@@ -68,7 +71,7 @@ export function Board({ fen, onMove, arrows, ...props }: Props) {
     catch {
       setFrom(square)
     }
-  }, [fromSquare, fen, onMove])
+  }, [fromSquare, fen, onMove, props.arePiecesDraggable])
 
   const squareStyles = useMemo((): CustomSquareStyles => {
     if (!fromSquare)
